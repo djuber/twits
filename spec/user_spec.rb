@@ -17,12 +17,12 @@ describe 'Twitter User' do
       ]
 
       mock_client = double('client')
-      mock_client.should receive(:search)
-                           .with('from:logosity', {:result_type => :recent })
-                           .and_return(mock_client)
-      mock_client.should receive(:take).with(5).and_return(tweets)
+      allow(mock_client).to receive(:search)
+                              .with('from:logosity', {:result_type => :recent })
+                              .and_return(mock_client)
+      allow(mock_client).to receive(:take).with(5).and_return(tweets)
 
-      Twitter::REST::Client.should_receive(:new).and_return(mock_client)
+      expect(Twitter::REST::Client).to receive(:new).and_return(mock_client)
 
       expect(@user.last_five_tweets).to eq %w{tweet1 tweet2 tweet3 tweet4 tweet5 }
     end
