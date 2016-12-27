@@ -10,6 +10,10 @@ describe 'Twitter User' do
     it 'provides the last five tweets from twitter' do
       expect(@user.last_five_tweets).to have(5).tweets
     end
+
+    it 'should not provide tweets if it does not have a twitter username' do
+      @user .twitter_username = nil
+      expect { @user.last_five_tweets }.to raise_error(LoginError)
+    end
   end
 end
-
