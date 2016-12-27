@@ -1,11 +1,29 @@
 require 'login_error'
 require 'twitter'
 
+# this defines the access tokey and consumer key needed for twitter.client
+require_relative('/etc/twitter.config')
+
+
 class User
   attr_accessor :twitter_username
+  
+  def client
+    @client || new_client
+  end
+
+  def new_client
+    config = {
+      consumer_key:    TWITTER_CONSUMER_KEY,
+      consumer_secret: TWITTER_CONSUMER_SECRET,
+      access_token: TWITTER_ACCESS_TOKEN,
+      access_token_secret: TWITTER_ACCESS_TOKEN_SECRET
+    }
+    client = Twitter::REST::Client.new(config)
+  end
 
   def last_five_tweets
-    return Twitter::Search.new.per_page(5).from(@twitter_username).map do |tweet|
+    return client.search("from:#{ @twitter_username }", result_type: :recent).take(5).map do |tweet|
       tweet[:text]
     end.to_a
   end

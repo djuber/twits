@@ -16,6 +16,6 @@ group :development do
   gem 'autotest'
   gem 'rspec-expectations'
   gem 'rspec-collection_matchers'
-  gem 'twitter'
+  gem 'twitter', '> 5'
   gem 'rspec-mocks'
 end
