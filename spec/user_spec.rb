@@ -8,12 +8,21 @@ describe 'Twitter User' do
     end
 
     it 'provides the last five tweets from twitter' do
-      expect(@user.last_five_tweets).to have(5).tweets
-    end
+      tweets = [
+        { :text => 'tweet1' },
+        { :text => 'tweet2' },
+        { :text => 'tweet3' },
+        { :text => 'tweet4' },
+        { :text => 'tweet5' }
+      ]
 
-    it 'should not provide tweets if it does not have a twitter username' do
-      @user .twitter_username = nil
-      expect { @user.last_five_tweets }.to raise_error(LoginError)
+      mock_client = double('client')
+      mock_client.should_receive(:per_page).with(5).and_return(mock_client)
+      mock_client.should_receive(:from).with('logosity').and_return(tweets)
+      # Twitter::Search just won't work. Also, twitter depends on 
+      Twitter::Search.should_receive(:new).and_return(mock_client)
+
+      expect(@user.last_five_tweets).to eq %w{tweet1 tweet2 tweet3 tweet4 tweet5 }
     end
   end
 end

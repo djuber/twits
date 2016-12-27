@@ -1,15 +1,13 @@
 require 'login_error'
+require 'twitter'
 
 class User
   attr_accessor :twitter_username
 
   def last_five_tweets
-    if twitter_username
-      [1,2,3,4,5]     
-    else
-      raise LoginError.new("user name not set")
-    end
-    
+    return Twitter::Search.new.per_page(5).from(@twitter_username).map do |tweet|
+      tweet[:text]
+    end.to_a
   end
 end
 

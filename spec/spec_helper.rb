@@ -19,9 +19,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'rspec'
 require 'rspec/collection_matchers'
+require 'rspec/mocks'
+
 
 require 'twits'
 require 'user'
+
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
