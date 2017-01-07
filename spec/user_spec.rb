@@ -27,4 +27,24 @@ describe 'Twitter User' do
       expect(@user.last_five_tweets).to eq %w{tweet1 tweet2 tweet3 tweet4 tweet5 }
     end
   end
+
+  
+  it "should allow addresses with no zip code" do
+    user = User.new 
+    user.address_text = 'P.O. BOX 7122 Chicago, IL'
+    user.zip_code
+  end
+ 
+  it "should treat missing zip codes as nil" do
+    user = User.new 
+    user.address_text = 'P.O. BOX 7122 Chicago, IL'
+    expect(user.zip_code).to be nil
+  end
+
+  it 'uses the current locale to parse zip codes' do
+    Locales.current = Locales::UNITED_KINGDOM
+    user = User.new
+    user.address_text = '51-55 Gresham Street, 6th Floor London, England EC2V 7HQ'
+    expect(user.zip_code).to eq 'EC2V 7HQ'
+  end
 end

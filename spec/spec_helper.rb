@@ -24,7 +24,7 @@ require 'rspec/mocks'
 
 require 'twits'
 require 'user'
-
+require 'locales'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.

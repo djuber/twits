@@ -7,6 +7,7 @@ require_relative('/etc/twitter.config')
 
 class User
   attr_accessor :twitter_username
+  attr_accessor :address_text
   
   def client
     @client || new_client
@@ -26,6 +27,14 @@ class User
     return client.search("from:#{ @twitter_username }", result_type: :recent).take(5).map do |tweet|
       tweet[:text]
     end.to_a
+  end
+
+  def zip_code
+    Locales.current.parse_postal_code(address_text)
+  end
+
+  def nearby_followers(user)
+    return [] unless user.zip_code
   end
 end
 
