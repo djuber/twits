@@ -1,3 +1,4 @@
+# require simplecov before loading any code
 require 'simplecov'
 
 module SimpleCov::Configuration
@@ -11,9 +12,13 @@ SimpleCov.configure do
   load_adapter 'test_frameworks'
 end
 
+# to get coverage, run ```COVERAGE=true rspec```
 ENV["COVERAGE"] && SimpleCov.start do
   add_filter "/.rvm/"
+  puts 'simplecov started'
 end
+# simplecov loaded, run real application
+
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 

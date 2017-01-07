@@ -23,7 +23,9 @@ describe Locales do
   end
 
   it "allows the locale to be changed" do
-    allow(Locales).to receive(:current).and_return( Locales::UNITED_KINGDOM)
+    the_locale = Locales.current
+    Locales.current = Locales::UNITED_KINGDOM
     expect(Locales.current).to eq Locales::UNITED_KINGDOM
+    Locales.current = the_locale
   end
 end
