@@ -22,12 +22,18 @@ describe Locales do
     expect(Locales.current.parse_postal_code('zip is 12345')).to eq '12345'
   end
 
-  it "allows the locale to be changed" do
-    # we save the current state, then change it, then set it back.
-    # since this is testing the assignment, don't use a stub
-    the_locale = Locales.current
-    Locales.current = Locales::UNITED_KINGDOM
-    expect(Locales.current).to eq Locales::UNITED_KINGDOM
-    Locales.current = the_locale
+  context 'with changes' do
+    before(:each) do
+      The_locale = Locales.current
+    end
+
+    after(:each) do
+      Locales.current = The_locale
+    end
+
+    it "allows the locale to be changed" do
+      Locales.current = Locales::UNITED_KINGDOM
+      expect(Locales.current).to eq Locales::UNITED_KINGDOM
+    end
   end
 end
