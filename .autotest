@@ -1,0 +1,25 @@
+Autotest.add_hook :initialize do |autotest|
+  %w{.git vendor Gemfile Gemfile.lock .gitignore LICENSE.txt README.md README.rdoc Rakefile .document coverage}.each do |exception|
+    autotest.add_exception(exception)
+  end
+  false
+end
+
+# any time we are green - sync from current upstream
+Autotest.add_hook :green do
+  Kernel.system('git pull')
+  false
+end
+
+# map config/* to config_spec
+Autotest.add_hook :initialize do |autotest|
+  autotest.add_mapping %r%^config/.*.rb$% do
+    autotest.files_matching(/^config_spec.rb$/)
+  end
+  false
+end
+
+# comment DEBT when making a short term decision, when green go back
+Autotest.add_hook :green do
+  Kernel.system('find . -name "*.rb" -exec grep -HEn "# DEBT|# FIXME|# TODO" {} \;')
+end
