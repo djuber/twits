@@ -23,6 +23,8 @@ describe Locales do
   end
 
   it "allows the locale to be changed" do
+    # we save the current state, then change it, then set it back.
+    # since this is testing the assignment, don't use a stub
     the_locale = Locales.current
     Locales.current = Locales::UNITED_KINGDOM
     expect(Locales.current).to eq Locales::UNITED_KINGDOM
