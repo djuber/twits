@@ -26,7 +26,7 @@ class User
   def last_five_tweets
     return client.search("from:#{ @twitter_username }", result_type: :recent).take(5).map do |tweet|
       tweet[:text]
-    end.to_a
+    end
   end
 
   def zip_code
@@ -37,4 +37,3 @@ class User
     return [] unless user.zip_code
   end
 end
-

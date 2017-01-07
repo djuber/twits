@@ -28,7 +28,19 @@ describe 'Twitter User' do
     end
   end
 
-  
+
+  it "should extract 5 digit zip codes" do
+    user = User.new
+    user.address_text = '1521 Fake St., Faketown, MO 12345'
+    expect(user.zip_code).to eq '12345'
+  end
+
+  it "should extract 9 digit zip codes" do
+    user = User.new
+    user.address_text = '1521 Fake St., Faketown, MO 12345-6789'
+    expect(user.zip_code).to eq '12345-6789'
+  end
+
   it "should allow addresses with no zip code" do
     user = User.new 
     user.address_text = 'P.O. BOX 7122 Chicago, IL'
@@ -40,11 +52,13 @@ describe 'Twitter User' do
     user.address_text = 'P.O. BOX 7122 Chicago, IL'
     expect(user.zip_code).to be nil
   end
-
+  
   it 'uses the current locale to parse zip codes' do
-    Locales.current = Locales::UNITED_KINGDOM
+    allow(Locales).to receive(:current).and_return(Locales::UNITED_KINGDOM)
     user = User.new
     user.address_text = '51-55 Gresham Street, 6th Floor London, England EC2V 7HQ'
     expect(user.zip_code).to eq 'EC2V 7HQ'
   end
+
+
 end

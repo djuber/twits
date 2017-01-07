@@ -2,7 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'locales'
 
 describe Locales do
-
   describe Locales::Locale do
     let(:locale) { Locales::Locale.new(/\d{5}/) }
 
@@ -24,7 +23,7 @@ describe Locales do
   end
 
   it "allows the locale to be changed" do
-    Locales.current = Locales::UNITED_KINGDOM
+    allow(Locales).to receive(:current).and_return( Locales::UNITED_KINGDOM)
     expect(Locales.current).to eq Locales::UNITED_KINGDOM
   end
 end
